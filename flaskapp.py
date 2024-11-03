@@ -28,7 +28,7 @@ def handle_errors(f):
     return decorated_function
     
 # Initialize Instagram client
-ACCESS_TOKEN = "IGQWRPNXJxZAUduQzl4WldRT0haVHc0LXBuN2daUWNYWnJDNFFJeE1BcTc3ZAk5zUGhnVmpRd3VxMV9Ic1QzNGRYU1Q5SlF3NmJPUFlHQVA4Rl84OFlCWUNDcmZAFTmpIYXBHY2RiSEMwN3JlRHQ3MkdOS2NRQ1dwQ0EZD"
+ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({
