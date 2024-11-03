@@ -5,7 +5,7 @@ from functools import wraps
 import os
 import json
 from datetime import datetime
-from fetchData import InstagramAPIClient
+from fetchData import getData
 
 app = Flask(__name__)
 
@@ -29,7 +29,6 @@ def handle_errors(f):
     
 # Initialize Instagram client
 ACCESS_TOKEN = "IGQWRPNXJxZAUduQzl4WldRT0haVHc0LXBuN2daUWNYWnJDNFFJeE1BcTc3ZAk5zUGhnVmpRd3VxMV9Ic1QzNGRYU1Q5SlF3NmJPUFlHQVA4Rl84OFlCWUNDcmZAFTmpIYXBHY2RiSEMwN3JlRHQ3MkdOS2NRQ1dwQ0EZD"
-instagram_client = InstagramAPIClient(ACCESS_TOKEN)
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({
@@ -40,18 +39,9 @@ def home():
 @handle_errors
 def get_dashboard():
     """Get combined dashboard data including profile and recent posts"""
-    profile = instagram_client.get_user_profile()
-    recent_media = instagram_client.get_user_media(limit=5)
-    engagement_metrics = instagram_client.calculate_engagement_metrics(recent_media)
+    media = getData(ACCESS_TOKEN)
     
-    return jsonify({
-        'profile': profile,
-        'metrics': {
-            'total_posts': profile.get('media_count', 0),
-            **engagement_metrics
-        },
-        'recent_posts': recent_media
-    })
+    return media
 
 @app.errorhandler(404)
 def not_found(e):

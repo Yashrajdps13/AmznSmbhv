@@ -83,3 +83,25 @@ class InstagramAPIClient:
         """
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(media_list, f, indent=2, ensure_ascii=False)
+def getData(ACCESS_TOKEN):
+    
+    try:
+        # Initialize the client
+        client = InstagramAPIClient(ACCESS_TOKEN)
+        
+        # Get user profile information
+        profile = client.get_user_profile()
+        print(f"Profile retrieved for: {profile.get('username')}")
+        
+        # Get recent media posts
+        media = client.get_user_media(limit=10)
+        print(f"Retrieved {len(media)} media posts")
+        
+        
+        return media
+        
+            
+    except requests.exceptions.RequestException as e:
+        print(f"API request failed: {str(e)}")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
